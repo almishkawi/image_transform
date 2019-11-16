@@ -1,6 +1,7 @@
 """image_transform."""
 import PIL
 from PIL import Image
+import numpy as np
 
 class ImageTransform:
     """Image processing helper."""
@@ -48,5 +49,17 @@ class ImageTransform:
         horizontally flip an image.
         """
         img = self.image.transpose(PIL.Image.FLIP_TOP_BOTTOM)
+
+        return img
+
+    def normalize(self, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]):
+        """normalize an image"""
+        mean = np.array(mean)
+        std = np.array(std)
+        img = np.array(self.image)
+
+        img = img / 255
+        img = (img - mean) / std
+        img = Image.fromarray(img, 'RGB')
 
         return img
